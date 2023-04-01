@@ -1,0 +1,81 @@
+<script type="text/javascript" async>
+    $(document).ready(function () {
+
+        // Abrir modal de simulação
+        $('.userinfo').click(function () {
+            var imovel_id = $(this).data('id');
+            $.ajax({
+                url: '/simulacao',
+                type: 'post',
+                data: { imovel_id: imovel_id },
+                success: function (data) {
+                    $('.modal-body').html({});
+                    $('.modal-body').append(data.htmlresponse);
+                    $('#simularModal').modal('show');
+                }
+            });
+
+            $('#simularModal').modal('show')
+        });
+
+
+        $('.vender').click(function () {
+
+            var data = $("form").serialize();
+
+            $.ajax({
+                url: '/vender',
+                type: "POST",
+                data: data,
+                success: function (data) {
+                    $('#simularModal').modal('hide');
+                    window.location.replace('/vendidos')
+                },
+                error: function () {
+                    $('#simularModal').modal('hide');
+                    alert('Ocorreu algum problema com a venda!', 'danger')
+                }
+            });
+        });
+
+        // Function to create alert infos
+
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
+        const alert = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+
+    });
+
+</script>
+
+<script>
+    function mascaraMoeda(event) {
+        const onlyDigits = event.target.value
+            .split("")
+            .filter(s => /\d/.test(s))
+            .join("")
+            .padStart(3, "0")
+        const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
+        event.target.value = maskCurrency(digitsFloat)
+    }
+
+    function maskCurrency(valor, locale = 'pt-BR', currency = 'BRL') {
+        return new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency
+        }).format(valor)
+    }
+</script>
+
+</body>
+</html>

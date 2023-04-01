@@ -1,0 +1,54 @@
+{% include 'base/head.html' %}
+<style>
+
+    #extratoData {
+        background-color: aqua;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    @media print
+    {
+        .no-print, .no-print *
+        {
+            display:none !important;
+        }
+
+        header, nav, footer {
+            display: none;
+        }
+        @page { margin: 0; }
+        body { margin: 1.6cm; }   
+    }
+</style>
+<div id="container text-center">
+    <div class="row" >
+        <div class="col">
+            <h1>EXTRATO DE VENDA</h1>
+            
+            <h3>{{imovel.nome.title()}}</h3>
+            <p>Endereço: {{imovel.logradouro.title()}}</p>
+            <p>Tipo: {{imovel.tipo.nome.title()}}</p>
+            <p>Corretor: {{corretor.nome.title()}}</p>
+            <p>Cliente: {{cliente.nome}}</p>
+            <p>Valor do imóvel: {{imovel.valor | filterCurrency}}</p>
+            <p>Valor da comissao: {{venda.valor_comissao | filterCurrency}}</p>
+            <p>Condição de pagamento: {{venda.condicao.nome.upper()}}</p>
+            <p>
+                <button id="" class="btn btn-primary no-print" onclick="history.back()">Voltar</button>
+                <button id="print-button" class="btn btn-warning no-print" >Imprimir</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(()=>{
+        $('#print-button').click(()=>{
+            // $('#imprimir').remove();
+            window.print();
+        });
+    });
+</script>
+
+{% include 'base/footer.html' %}

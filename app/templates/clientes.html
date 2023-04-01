@@ -1,0 +1,37 @@
+{% include 'base/head.html' %}
+<h1>CLIENTES</h1>
+<a href="/panel">Voltar</a> | 
+<a href="/cliente/add">Adicionar cliente</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Cpf</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Data que iniciou no app</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    {% for cliente in clientes %}
+    <tbody>
+        <tr>
+            <th scope="row">{{cliente.id}}</th>
+            <td>{{cliente.nome.title()}}</td>
+            <td>{{cliente.cpf | filterCpf}}</td>
+            <td>{{cliente.email}}</td>
+            <td>{{cliente.telefone | filterPhone}}</td>
+            <td>{{cliente.created_at | filterDate}}</td>
+            <td>
+                <button class="btn btn-success btn-sm" onclick="location.href='cliente/update/{{cliente.id}}'" type="button">Editar</button> 
+                
+                <button class="btn btn-danger btn-sm" onclick="location.href='cliente/delete/{{cliente.id}}'" type="button">Deletar</button></td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+{% include 'base/footer.html' %}

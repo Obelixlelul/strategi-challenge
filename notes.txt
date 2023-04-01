@@ -1,0 +1,23 @@
+# Regras de negócios:
+-> O vendedor faz o login
+-> Tela de seleção do imóvel deve aparecer (localização do imóvel, valor de venda, comissão(5%), e qualquer outra info)
+-> Realiza simulação de pagamento (escolhe cliente e forma de pagamento)
+-> Apresenta resumo de toda a transação
+
+obs1: Utilizar API de CEP para popular o endereço do cliente, imóvel ou vendedor
+obs2: Criar crud do cadastro cliente, não é necessário criar cadastro de imóvel e nem de vendedor
+
+# Premissas
+-> Documentar todo o código
+-> Utilize ORM com qualquer banco de dados
+-> Flask
+-> ReadMe no GitHub com instruções para iniciar a aplicação
+
+[X] - Tela de Login
+[X] - Tela apresentando as unidades (Tabela imóveis)
+[X] - Tela apresentando as unidades (CRUD Tabela imóveis)
+[X] - Tratar valor recebido do front da tela de editar imoveis
+[X] - CRUD Clientes
+[X] - Tela de simulação apresentando as condições de pagamento
+[] - Tela final de resumo de venda
+[] - Adicionar imovel populando com viacep

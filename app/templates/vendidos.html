@@ -1,0 +1,37 @@
+{% include 'base/head.html' %}
+<div id="liveAlertPlaceholder"></div>
+
+<h1>VENDAS DE {{user.nome.upper()}}</h1>
+<a href="/panel">Voltar</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Cep</th>
+            <th scope="col">Valor de venda</th>
+            <th scope="col">Valor da comissão</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    {% for imovel in imoveisVendidos %}
+    <tbody>
+        <tr>
+            <th scope="row">{{imovel.id}}</th>
+            <td>{{imovel.nome}}</td>
+            <td>{{imovel.tipo.nome}}</td>
+            <td>{{imovel.cep}}</td>
+            <td>{{imovel.valor | filterCurrency}}</td>
+            <td>{{imovel.comissao}}%</td>
+            <td><a href="/extrato/{{imovel.id}}">Extrato</a></td>
+            <td>
+                    <button class="btn btn-danger btn-sm" onclick="location.href='imovel/delete/{{imovel.id}}'" type="button">Deletar</button>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+{% include 'base/footer.html' %}

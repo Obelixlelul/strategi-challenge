@@ -1,0 +1,17 @@
+{% include 'base/head.html' %}
+
+    {% if flag == False %}
+    <div class="alert alert-danger" role="alert">
+        Usuário ou senha não encontrados
+    </div>
+    {% endif %}
+    <p>TELA DE LOGIN</p>
+    <form action="/login" method="post">
+        <p><input type="text" name="username" id="username" placeholder="Usuário"></p>
+        <p><input type="password" name="password" id="password" placeholder="Senha"></p>
+        <p><button type="submit">Enviar</button></p>
+    </form>
+
+
+
+{% include 'base/footer.html' %}

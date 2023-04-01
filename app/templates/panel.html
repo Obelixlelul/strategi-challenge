@@ -1,0 +1,77 @@
+{% include 'base/head.html' %}
+
+<div id="liveAlertPlaceholder"></div>
+
+<h1>PAINEL CORRETOR</h1>
+{% if user %}
+<p>Id logado: {{user.id}}</p>
+<p>Username logado: {{user.nome}}</p>
+<p>Caso deseje sair: <a href="/logout">logout</a></p>
+{% endif %}
+<p><a href="/clientes">CLIENTES</a></p>
+<p><a href="/vendidos">VENDIDOS</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Localização</th>
+            <th scope="col">Cep</th>
+            <th scope="col">Valor de venda</th>
+            <th scope="col">Valor da comissão</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    {% for imovel in imoveis %}
+    <tbody>
+        <tr>
+            <th scope="row">{{imovel.id}}</th>
+            <td>{{imovel.nome}}</td>
+            <td>{{imovel.tipo.nome}}</td>
+            <td>{{imovel.logradouro + ' - ' + imovel.bairro + ' - ' + imovel.cidade}}</td>
+            <td>{{imovel.cep}}</td>
+            <td>{{imovel.valor | filterCurrency}}</td>
+            <td>{{imovel.comissao}}%</td>
+
+            <td>
+                <a data-id='{{imovel.id}}' href="#" class="userinfo">Simular venda</a>
+            </td>
+
+            <td>
+                <button class="btn btn-success btn-sm" onclick="location.href='imovel/edit/{{imovel.id}}'"
+                    type="button">Editar</button>
+                <button class="btn btn-danger btn-sm" onclick="location.href='imovel/delete/{{imovel.id}}'"
+                    type="button">Deletar</button>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="simularModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-success vender">Realizar venda</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% include 'base/footer.html' %}

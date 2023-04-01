@@ -1,0 +1,41 @@
+<div class="container">
+
+    <form id="form-modal-venda" action="/test" method="post">
+        <legend>Simulação de Venda</legend>
+        <div class="mb-3">
+            <!-- <label for="nomeImovel" class="form-label">Nome</label> -->
+            <input type="text" id="nomeImovel" class="form-control" value="{{imovel.nome}}" readonly="readonly">
+        </div>
+        <div class="mb-3">
+            <!-- <label for="tipoImovel" class="form-label">Tipo</label> -->
+            <input type="text" id="tipoImovel" class="form-control"  value="{{imovel.tipo.nome}}" readonly="readonly">
+        </div>
+        <div class="mb-3">
+            <!-- <label for="valorImovel" class="form-label">Valor</label> -->
+            <input type="text" id="valorImovel" class="form-control" value="{{imovel.valor | filterCurrency}}" readonly="readonly">
+        </div>
+        <div class="mb-3">
+            <label for="valorImovel" class="form-label">Cliente</label>
+            <select class="form-select" aria-label="Default select example" name="id_cliente"">
+                {%for cliente in clientes%}
+                <option value="{{cliente.id}}">{{cliente.nome.title()}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="valorImovel" class="form-label">Forma de pagamento</label>
+            <select class="form-select" aria-label="Default select example" name="id_condicao">
+                {%for condicao in condicoes%}
+                <option value="{{condicao.id}}">{{condicao.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="hidden" name="id_corretor" value="{{corretor.id}}">
+        <input type="hidden" name="id_imovel" value="{{imovel.id}}">
+        <input type="hidden" name="valor_comissao" value="{{imovel.valor * imovel.comissao / 100}}">
+
+        
+    </form>      
+</div>
+
+
