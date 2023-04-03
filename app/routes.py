@@ -1,12 +1,13 @@
 # Rotas e Manipuladores de visualização
 from flask import Blueprint, render_template, session, request, url_for, redirect, Response, make_response, jsonify
-from app.models import db, Venda, Corretor, Imovel, Cliente, Condicao
+from app.models import db, Venda, Corretor, Imovel, Cliente, Condicao, Tipo
 import locale
 import re
 from app.util import clean_currency_string
-from datetime import datetime
+from sqlalchemy import func
+from functools import reduce
 
-bp = Blueprint('routes', __name__, template_folder='templates')
+bp = Blueprint('routes', __name__)
 
 # FILTERS
 @bp.app_template_filter()
@@ -30,6 +31,10 @@ def filterDate(date):
 	formatedDate = date.strftime("%d/%m/%Y")
 	return formatedDate
 
+@bp.app_template_filter()
+def filterCep(cep):
+	formatedCep = '{}-{}'.format(cep[0:5], cep[5:])
+	return formatedCep
 # ROUTES
 
 @bp.route('/')
@@ -42,10 +47,19 @@ def index():
 @bp.route('/panel')
 def panel():
 	if 'user' in session:
-		# imoveis = Imovel.query.all()
-		# Imoveis que não foram vendidos serão mostrados no painel
 		imoveis = db.session.query(Imovel).outerjoin(Venda).filter(Venda.id_corretor == None)
-		return render_template('panel.html', user = session['user'], imoveis = imoveis)
+		totalImoveis = imoveis.count()
+		vendas = db.session.query(Venda).filter(Venda.id_corretor == session['user']['id'])
+		totalVendas = vendas.count()
+		totalClientes = db.session.query(Cliente).count()
+		comissao = 0
+		for venda in vendas:
+			comissao += venda.valor_comissao
+			
+		return render_template('panel.html', user = session['user'], imoveis = imoveis, 
+			 totalImoveis = totalImoveis, vendas=totalVendas, 
+			 totalClientes=totalClientes, comissao = comissao)
+	
 	return render_template('login.html')
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -81,16 +95,24 @@ def deleteImovel(id):
 @bp.route('/imovel/edit/<int:id>', methods=['GET', 'POST'])
 def editImovel(id):
 	imovel = db.get_or_404(Imovel, id)
-	imovel.tipo.nome
 
 	if request.method == 'POST':
-		imovel.nome = request.form['nome']
-		imovel.cep = request.form['cep']
+		imovel.nome = request.form['nome'].lower()
+		imovel.tipo_id = re.sub(r'[^0-9]', '', request.form['tipo'])
+		imovel.cep = re.sub(r'[^0-9]', '', request.form['cep'])
+		imovel.logradouro = request.form['logradouro'].lower()
+		imovel.bairro = request.form['bairro'].lower()
+		imovel.cidade = request.form['cidade'].lower()
+		imovel.numero = re.sub(r'[^0-9]', '', request.form['numero'])
+		imovel.complemento = request.form['complemento'].lower()
 		imovel.valor = clean_currency_string(request.form['valor'])
 
 		db.session.commit()
+
 		return redirect(url_for('routes.panel'))
-	return render_template('editImovel.html', imovel = imovel)
+	
+	tipos = db.session.query(Tipo).all()
+	return render_template('editImovel.html', imovel = imovel, user = session['user'], tipos = tipos)
 
 ## ROTA DE VENDAS
 @bp.route('/vendidos')
@@ -105,7 +127,7 @@ def vendidos():
 def clientes():
 	if 'user' in session:
 		clientes = Cliente.query.all()
-		return render_template('clientes.html', clientes = clientes)
+		return render_template('clientes.html', clientes = clientes, user = session['user'])
 	return render_template('login.html')
 
 @bp.route('/cliente/add', methods=['GET', 'POST'])
@@ -122,7 +144,7 @@ def clientesAdd():
 		db.session.commit()
 
 		return redirect(url_for('routes.clientes'))
-	return render_template('addCliente.html')
+	return render_template('addCliente.html', user = session['user'])
 
 
 @bp.route('/cliente/delete/<int:id>')
@@ -147,7 +169,7 @@ def clientesUpdate(id):
 		db.session.commit()
 
 		return redirect(url_for('routes.clientes'))
-	return render_template('editCliente.html', cliente = cliente)
+	return render_template('editCliente.html', cliente = cliente, user = session['user'])
 
 # ROTAS PARA MODAL DE SIMULAÇÃO 
 @bp.route('/simulacao', methods=["POST", "GET"])

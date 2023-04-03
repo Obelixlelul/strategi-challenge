@@ -1,37 +1,89 @@
 {% include 'base/head.html' %}
-<h1>CLIENTES</h1>
-<a href="/panel">Voltar</a> | 
-<a href="/cliente/add">Adicionar cliente</a>
+
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar starts here -->
+
+    {% include 'base/sidebar.html' %}
+
+    <!-- Sidebar ends here -->
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Cpf</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">Telefone</th>
-            <th scope="col">Data que iniciou no app</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    {% for cliente in clientes %}
-    <tbody>
-        <tr>
-            <th scope="row">{{cliente.id}}</th>
-            <td>{{cliente.nome.title()}}</td>
-            <td>{{cliente.cpf | filterCpf}}</td>
-            <td>{{cliente.email}}</td>
-            <td>{{cliente.telefone | filterPhone}}</td>
-            <td>{{cliente.created_at | filterDate}}</td>
-            <td>
-                <button class="btn btn-success btn-sm" onclick="location.href='cliente/update/{{cliente.id}}'" type="button">Editar</button> 
-                
-                <button class="btn btn-danger btn-sm" onclick="location.href='cliente/delete/{{cliente.id}}'" type="button">Deletar</button></td>
-        </tr>
-    </tbody>
-    {% endfor %}
-</table>
+    <!-- Content starts here -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+            <div class="d-flex align-tems-center">
+                <i class="bi-list primary-text fs-4 me-3" id="menu-toggle"></i>
+                <h2 class="fs-2 m-0">Clientes</h2>
+            </div>
+            
+            <!-- NAVBAR TOGGLE -->
+            {% include 'base/navbar_toggle.html' %}
+        </nav>
+
+        <div class="container-fluid px-4">
+            <div class="row g-3 my-2">    
+                <div class="row my-1">
+                    <div class="col">
+                        <table class="table bg-white shadow-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Cpf</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Data que iniciou no app</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            {% for cliente in clientes %}
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{cliente.id}}</th>
+                                    <td>{{cliente.nome.title()}}</td>
+                                    <td>{{cliente.cpf | filterCpf}}</td>
+                                    <td>{{cliente.email}}</td>
+                                    <td>{{cliente.telefone | filterPhone}}</td>
+                                    <td>{{cliente.created_at | filterDate}}</td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="location.href='cliente/update/{{cliente.id}}'" type="button">Editar</button> 
+                                        
+                                        <button class="btn btn-danger btn-sm" onclick="location.href='cliente/delete/{{cliente.id}}'" type="button">Deletar</button></td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                        <a href="/cliente/add" style="display: inline-block; text-align: right;">Adicionar cliente</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Content ends here -->
+
+</div>
+
+
+<!-- Modal simulação de venda -->
+
+<div class="modal fade" id="simularModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-success vender">Realizar venda</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'base/footer.html' %}

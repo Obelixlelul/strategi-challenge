@@ -21,3 +21,9 @@ obs2: Criar crud do cadastro cliente, não é necessário criar cadastro de imó
 [X] - Tela de simulação apresentando as condições de pagamento
 [] - Tela final de resumo de venda
 [] - Adicionar imovel populando com viacep
+
+
+
+Tabela com bootstrap 
+
+'.table striped'

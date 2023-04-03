@@ -1,34 +1,105 @@
 {% include 'base/head.html' %}
 
-<h1 style="text-align: center;">Editar {{ cliente.nome }}</h1>
-<a href="/clientes">Voltar</a>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar starts here -->
 
-<form action="/cliente/update/{{ cliente.id }}" class="container" method="post">
-    <br>
-    <div class="row">
-        <div class="col-md-6">
-            <input type="text" name="nome" id="nome" class="form-control" value="{{ cliente.nome.title() }}">
+    {% include 'base/sidebar.html' %}
+
+    <!-- Sidebar ends here -->
+
+
+    <!-- Content starts here -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+            <div class="d-flex align-tems-center">
+                <i class="bi-list primary-text fs-4 me-3" id="menu-toggle"></i>
+                <h2 class="fs-2 m-0">Editar Cliente</h2>
+            </div>
+            
+            <!-- NAVBAR TOGGLE -->
+            {% include 'base/navbar_toggle.html' %}
+        </nav>
+
+        <div class="container-fluid px-4">
+            <div class="row g-3 my-2">    
+                <div class="row my-1">
+                    <div class="col">
+                        <form action="/cliente/update/{{ cliente.id }}" class="container" method="post">
+                            <br>
+                            <div class="row bg-white rounded">
+                                <div class="col-md-6 mt-3">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="{{ cliente.nome.title() }}">
+                                </div>
+                        
+                                <div class="col-md-6 mt-3">
+                                    <label for="cpf" class="form-label">Cpf</label>
+                                    <input type="text" name="cpf" id="cpf" class="form-control" value="{{ cliente.cpf | filterCpf}}" 
+                                    autocomplete="off" maxlength="14" onkeyup="cpfMascara()">
+                                </div>
+                        
+                                <div class="col-md-6 mt-3">
+                                    <label for="email" class="form-label">E-mail</label>
+                                    <input type="text" name="email" id="email" class="form-control" value="{{ cliente.email }}">
+                                </div>
+                        
+                                <div class="col-md-6 mt-3">
+                                    <label for="telefone" class="form-label">Telefone</label>
+                                    <input type="text" name="telefone" id="telefone" 
+                                    class="form-control" value="{{ cliente.telefone | filterPhone}}" 
+                                    onkeyup="handlePhone(event)" maxlength="15">
+                                </div>
+
+                                <div class="d-flex col-md-12 mt-3 mb-3 justify-content-start">
+                                    <button class="btn btn-primary no-print" onclick="history.back()">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-block btn-warning ms-2">
+                                        Salvar
+                                    </button>
+                                    <br>
+                                </div>
+                            </div>
+                          
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <input type="text" name="cpf" id="cpf" class="form-control" value="{{ cliente.cpf | filterCpf}}">
-        </div>
-
-        <div class="col-md-6">
-            <input type="text" name="email" id="email" class="form-control" value="{{ cliente.email }}">
-        </div>
-
-        <div class="col-md-6">
-            <input type="text" name="telefone" id="telefone" class="form-control" value="{{ cliente.telefone | filterPhone}}">
-        </div>
     </div>
-    <br>
-    <div class="row col-xs-12">
-        <button type="submit" class="btn btn-block btn-success">
-            Salvar
-        </button>
-        <br>
-    </div>
-</form>
+    <!-- Content ends here -->
+
+</div>
+
+<script>
+
+    // Mascara para telefone
+
+    const handlePhone = (event) => {
+        let input = event.target
+        input.value = phoneMask(input.value)
+    }
+
+    const phoneMask = (value) => {
+    if (!value) return ""
+    value = value.replace(/\D/g,'')
+    value = value.replace(/(\d{2})(\d)/,"($1) $2")
+    value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+    return value
+    }
+
+
+    // Mascara para cpf
+
+    function cpfMascara(){
+        let cpf = document.getElementById('cpf')
+        if(cpf.value.length == 3 || cpf.value.length == 7){
+            cpf.value += '.'
+        }else if(cpf.value.length == 11){
+            cpf.value += '-'
+        }
+    }
+</script>
 
 {% include 'base/footer.html' %}

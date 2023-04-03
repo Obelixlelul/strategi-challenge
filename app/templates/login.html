@@ -1,17 +1,37 @@
 {% include 'base/head.html' %}
 
     {% if flag == False %}
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger " role="alert">
         Usuário ou senha não encontrados
     </div>
     {% endif %}
-    <p>TELA DE LOGIN</p>
-    <form action="/login" method="post">
-        <p><input type="text" name="username" id="username" placeholder="Usuário"></p>
-        <p><input type="password" name="password" id="password" placeholder="Senha"></p>
-        <p><button type="submit">Enviar</button></p>
-    </form>
+    
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="margin-top: 20vh">
+        <div class="d-flex justify-content-center align-items-center w-25 mb-2">
+            <img src="static/img/logo.jpeg" style="width: 15rem; height: 15rem;">
+        </div>
 
+        <div class="w-25 ">  
+            <form action="/login" method="post" >
+                <div class="mb-3">
+                    <label for="username" class="form-label">Login</label>
+                    <input type="text" name="username" id="username" placeholder="Usuário"  class="form-control">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <input type="password" name="password" id="password" placeholder="Senha"  class="form-control">
+                </div>
+                
+
+                <button type="submit" class="btn btn-warning bg-gradient">Entrar</button>
+                
+            </form>
+        </div>
+    </div>
 
 
 {% include 'base/footer.html' %}
+
+
+

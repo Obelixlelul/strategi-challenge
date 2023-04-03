@@ -1,58 +1,126 @@
 {% include 'base/head.html' %}
 
-<div id="liveAlertPlaceholder"></div>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar starts here -->
 
-<h1>PAINEL CORRETOR</h1>
-{% if user %}
-<p>Id logado: {{user.id}}</p>
-<p>Username logado: {{user.nome}}</p>
-<p>Caso deseje sair: <a href="/logout">logout</a></p>
-{% endif %}
-<p><a href="/clientes">CLIENTES</a></p>
-<p><a href="/vendidos">VENDIDOS</a></p>
+    {% include 'base/sidebar.html' %}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Localização</th>
-            <th scope="col">Cep</th>
-            <th scope="col">Valor de venda</th>
-            <th scope="col">Valor da comissão</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    {% for imovel in imoveis %}
-    <tbody>
-        <tr>
-            <th scope="row">{{imovel.id}}</th>
-            <td>{{imovel.nome}}</td>
-            <td>{{imovel.tipo.nome}}</td>
-            <td>{{imovel.logradouro + ' - ' + imovel.bairro + ' - ' + imovel.cidade}}</td>
-            <td>{{imovel.cep}}</td>
-            <td>{{imovel.valor | filterCurrency}}</td>
-            <td>{{imovel.comissao}}%</td>
-
-            <td>
-                <a data-id='{{imovel.id}}' href="#" class="userinfo">Simular venda</a>
-            </td>
-
-            <td>
-                <button class="btn btn-success btn-sm" onclick="location.href='imovel/edit/{{imovel.id}}'"
-                    type="button">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="location.href='imovel/delete/{{imovel.id}}'"
-                    type="button">Deletar</button>
-            </td>
-        </tr>
-    </tbody>
-    {% endfor %}
-</table>
+    <!-- Sidebar ends here -->
 
 
-<!-- Modal -->
+    <!-- Content starts here -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+            <div class="d-flex align-tems-center">
+                <i class="bi-list primary-text fs-4 me-3" id="menu-toggle"></i>
+                <h2 class="fs-2 m-0">Dashboard</h2>
+            </div>
+            <!-- NAVBAR TOGGLE -->
+            {% include 'base/navbar_toggle.html' %}
+        </nav>
+
+        <div class="container-fluid px-4">
+            <div class="row g-3 my-2">
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-2">{{totalImoveis}}</h3>
+                            <p class="fs-5">Imóveis</p>
+                        </div>
+                        <div class="border rounded-full secondary-bg p-3" style="display: inline-block;">
+                            <i class="bi-house-door-fill" style="display: inline-block;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-2">{{vendas}}</h3>
+                            <p class="fs-5">Vendas</p>
+                        </div>
+                        <div class="border rounded-full secondary-bg p-3" style="display: inline-block;">
+                            <i class="bi-lightning-fill" style="display: inline-block;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-2">{{totalClientes}}</h3>
+                            <p class="fs-5">Clientes</p>
+                        </div>
+                        <div class="border rounded-full secondary-bg p-3" style="display: inline-block;">
+                            <i class="bi-people-fill" style="display: inline-block;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                        <div>
+                            <h3 class="fs-2">{{comissao | filterCurrency}}</h3>
+                            <p class="fs-5">Comissões</p>
+                        </div>
+                        <div class="border rounded-full secondary-bg p-3" style="display: inline-block;">
+                            <i class="bi-reception-4" style="display: inline-block;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-5">
+                    <h3 class="fs-4 mb-3">Imóveis</h3>
+                    <div class="col">
+                        <table class="table bg-white shadow-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Localização</th>
+                                    <th scope="col">Cep</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Comissão</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            {% for imovel in imoveis %}
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{imovel.id}}</th>
+                                    <td>{{imovel.nome.title()}}</td>
+                                    <td>{{imovel.tipo.nome}}</td>
+                                    <td>{{imovel.logradouro}}</td>
+                                    <td>{{imovel.cep}}</td>
+                                    <td>{{imovel.valor | filterCurrency}}</td>
+                                    <td>{{imovel.comissao}}%</td>
+                        
+                                    <td>
+                                        <a data-id='{{imovel.id}}' href="#" class="userinfo">Simular venda</a>
+                                    </td>
+                        
+                                    <td>
+                                        <a href="imovel/edit/{{imovel.id}}" class="btn btn-success btn-sm">Editar</a>
+                                        <a href="imovel/delete/{{imovel.id}}" class="btn btn-danger btn-sm">Excluir</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Content ends here -->
+
+</div>
+
+
+<!-- Modal simulação de venda -->
+
 <div class="modal fade" id="simularModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -71,7 +139,5 @@
         </div>
     </div>
 </div>
-
-
 
 {% include 'base/footer.html' %}
