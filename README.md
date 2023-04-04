@@ -76,3 +76,5 @@ strategi-desafio
 
 ## Modelo do Banco de Dados
 ![My Image](readme_images/modelo_banco.png)
+
+=)
