@@ -1,65 +1,16 @@
 # Rotas e Manipuladores de visualização
-from flask import Blueprint, render_template, session, request, url_for, redirect, Response, make_response, jsonify
+from flask import Blueprint, render_template, session, request, url_for, redirect, jsonify
 from app.models import db, Venda, Corretor, Imovel, Cliente, Condicao, Tipo
-import locale
 import re
 from app.util import clean_currency_string
-from sqlalchemy import func
-from functools import reduce
 
 bp = Blueprint('routes', __name__)
 
-# FILTERS
-@bp.app_template_filter()
-def filterCurrency(valor):
-    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-    valor = locale.currency(valor, grouping=True, symbol=None)
-    return 'R$ %s' % valor
-
-@bp.app_template_filter()
-def filterPhone(value):
-	telFormatado = '({}) {}-{}-{}'.format(value[0:2], value[2] ,value[3:7], value[7:])
-	return telFormatado
-
-@bp.app_template_filter()
-def filterCpf(value):
-	telFormatado = '{}.{}.{}-{}'.format(value[0:3], value[3:6] ,value[6:9], value[9:])
-	return telFormatado
-
-@bp.app_template_filter()
-def filterDate(date):
-	formatedDate = date.strftime("%d/%m/%Y")
-	return formatedDate
-
-@bp.app_template_filter()
-def filterCep(cep):
-	formatedCep = '{}-{}'.format(cep[0:5], cep[5:])
-	return formatedCep
-# ROUTES
-
+############################################################# DEFINIÇÃO DE ROTAS
 @bp.route('/')
 def index():
 	if 'user' in session:
 		return redirect(url_for('routes.panel'), user = session['user'])
-		# return render_template('panel.html', user = session['user'])
-	return render_template('login.html')
-
-@bp.route('/panel')
-def panel():
-	if 'user' in session:
-		imoveis = db.session.query(Imovel).outerjoin(Venda).filter(Venda.id_corretor == None)
-		totalImoveis = imoveis.count()
-		vendas = db.session.query(Venda).filter(Venda.id_corretor == session['user']['id'])
-		totalVendas = vendas.count()
-		totalClientes = db.session.query(Cliente).count()
-		comissao = 0
-		for venda in vendas:
-			comissao += venda.valor_comissao
-			
-		return render_template('panel.html', user = session['user'], imoveis = imoveis, 
-			 totalImoveis = totalImoveis, vendas=totalVendas, 
-			 totalClientes=totalClientes, comissao = comissao)
-	
 	return render_template('login.html')
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -83,7 +34,31 @@ def logout():
 	session.pop('user', '')
 	return redirect('/')
 
-## ROTAS DE IMOVEIS
+############################################################### ROTAS DASHBOARD
+
+@bp.route('/panel')
+def panel():
+	if 'user' in session:
+		imoveis = db.session.query(Imovel).outerjoin(Venda).filter(Venda.id_corretor == None)
+		totalImoveis = imoveis.count()
+		vendas = db.session.query(Venda).filter(Venda.id_corretor == session['user']['id'])
+		totalVendas = vendas.count()
+		totalClientes = db.session.query(Cliente).count()
+		comissao = 0
+		for venda in vendas:
+			comissao += venda.valor_comissao
+			
+		return render_template('panel.html', user = session['user'], imoveis = imoveis, 
+			 totalImoveis = totalImoveis, vendas=totalVendas, 
+			 totalClientes=totalClientes, comissao = comissao)
+	
+	return render_template('login.html')
+
+
+
+
+
+############################################################### ROTAS DE IMOVEIS
 
 @bp.route('/imovel/delete/<int:id>')
 def deleteImovel(id):
@@ -117,11 +92,18 @@ def editImovel(id):
 ## ROTA DE VENDAS
 @bp.route('/vendidos')
 def vendidos():
-	imoveisVendidos = db.session.query(Imovel).join(Venda).filter(Venda.id_corretor == session['user']['id'])
+	imoveisVendidos = db.session.query(Imovel, Venda).join(Venda).filter(Venda.id_corretor == session['user']['id'])
 
 	return render_template('vendidos.html', user = session['user'], imoveisVendidos = imoveisVendidos)
 
-## ROTAS DE CLIENTES
+@bp.route('/venda/delete/<int:id>')
+def deleteVenda(id):
+	venda = db.get_or_404(Venda, id)
+	db.session.delete(venda)
+	db.session.commit()
+	return redirect(url_for('routes.panel'))
+
+############################################################### ROTAS DE CLIENTES
 
 @bp.route('/clientes')
 def clientes():
@@ -171,7 +153,9 @@ def clientesUpdate(id):
 		return redirect(url_for('routes.clientes'))
 	return render_template('editCliente.html', cliente = cliente, user = session['user'])
 
-# ROTAS PARA MODAL DE SIMULAÇÃO 
+
+
+############################################################### ROTAS PARA VENDAS 
 @bp.route('/simulacao', methods=["POST", "GET"])
 def ajaxfile():
 	if request.method == 'POST':
@@ -218,7 +202,3 @@ def extrato(id):
 		
 		return render_template('extrato.html', imovel = imovel, venda = venda, corretor = corretor, cliente = cliente)
 	return {}
-
-
-
-# Quem foi o vendedor, qual foi o imóvel, para quem foi vendido o imóvel e as condições de pagamento e extrato

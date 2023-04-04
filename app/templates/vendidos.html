@@ -40,15 +40,15 @@
                             {% for imovel in imoveisVendidos %}
                             <tbody>
                                 <tr>
-                                    <th scope="row">{{imovel.id}}</th>
-                                    <td>{{imovel.nome}}</td>
-                                    <td>{{imovel.tipo.nome}}</td>
-                                    <td>{{imovel.cep}}</td>
-                                    <td>{{imovel.valor | filterCurrency}}</td>
-                                    <td>{{imovel.comissao}}%</td>
-                                    <td><a href="/extrato/{{imovel.id}}">Extrato</a></td>
+                                    <th scope="row">{{imovel.Imovel.id}}</th>
+                                    <td>{{imovel.Imovel.nome.title()}}</td>
+                                    <td>{{imovel.Imovel.tipo.nome.title()}}</td>
+                                    <td>{{imovel.Imovel.cep | filterCep}}</td>
+                                    <td>{{imovel.Imovel.valor | filterCurrency}}</td>
+                                    <td>{{imovel.Imovel.comissao}}%</td>
+                                    <td><a href="/extrato/{{imovel.Imovel.id}}" target="_blank">Extrato</a></td>
                                     <td>
-                                            <button class="btn btn-danger btn-sm" onclick="location.href='imovel/delete/{{imovel.id}}'" type="button">Deletar</button>
+                                            <a class="btn btn-danger btn-sm" href='venda/delete/{{imovel.Venda.id}}' type="button">Deletar</a>
                                     </td>
                                 </tr>
                             </tbody>

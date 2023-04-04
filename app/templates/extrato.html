@@ -35,7 +35,6 @@
             <p>Valor da comissao: {{venda.valor_comissao | filterCurrency}}</p>
             <p>Condição de pagamento: {{venda.condicao.nome.upper()}}</p>
             <p>
-                <button id="" class="btn btn-primary no-print" onclick="history.back()">Voltar</button>
                 <button id="print-button" class="btn btn-warning no-print" >Imprimir</button>
             </p>
         </div>
@@ -45,7 +44,6 @@
 <script>
     $(document).ready(()=>{
         $('#print-button').click(()=>{
-            // $('#imprimir').remove();
             window.print();
         });
     });

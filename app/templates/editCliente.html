@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div class="d-flex col-md-12 mt-3 mb-3 justify-content-start">
-                                    <button class="btn btn-primary no-print" onclick="history.back()">
+                                    <button class="btn btn-danger no-print" onclick="history.back()">
                                         Cancelar
                                     </button>
                                     <button type="submit" class="btn btn-block btn-warning ms-2">
@@ -72,34 +72,5 @@
 
 </div>
 
-<script>
-
-    // Mascara para telefone
-
-    const handlePhone = (event) => {
-        let input = event.target
-        input.value = phoneMask(input.value)
-    }
-
-    const phoneMask = (value) => {
-    if (!value) return ""
-    value = value.replace(/\D/g,'')
-    value = value.replace(/(\d{2})(\d)/,"($1) $2")
-    value = value.replace(/(\d)(\d{4})$/,"$1-$2")
-    return value
-    }
-
-
-    // Mascara para cpf
-
-    function cpfMascara(){
-        let cpf = document.getElementById('cpf')
-        if(cpf.value.length == 3 || cpf.value.length == 7){
-            cpf.value += '.'
-        }else if(cpf.value.length == 11){
-            cpf.value += '-'
-        }
-    }
-</script>
 
 {% include 'base/footer.html' %}
