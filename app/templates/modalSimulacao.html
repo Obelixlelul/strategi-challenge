@@ -4,11 +4,11 @@
         <legend>Simulação de Venda</legend>
         <div class="mb-3">
             <!-- <label for="nomeImovel" class="form-label">Nome</label> -->
-            <input type="text" id="nomeImovel" class="form-control" value="{{imovel.nome}}" readonly="readonly">
+            <input type="text" id="nomeImovel" class="form-control" value="{{imovel.nome.title()}}" readonly="readonly">
         </div>
         <div class="mb-3">
             <!-- <label for="tipoImovel" class="form-label">Tipo</label> -->
-            <input type="text" id="tipoImovel" class="form-control"  value="{{imovel.tipo.nome}}" readonly="readonly">
+            <input type="text" id="tipoImovel" class="form-control"  value="{{imovel.tipo.nome.title()}}" readonly="readonly">
         </div>
         <div class="mb-3">
             <!-- <label for="valorImovel" class="form-label">Valor</label> -->

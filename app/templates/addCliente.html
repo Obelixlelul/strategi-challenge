@@ -34,7 +34,7 @@
                         
                                 <div class="col-md-6 mt-3">
                                     <label for="cpf" class="form-label">Cpf</label>
-                                    <input type="text" name="cpf" id="cpf" class="form-control">
+                                    <input type="text" name="cpf" id="cpf" class="form-control" maxlength="14" onkeyup="cpfMascara()">
                                 </div>
                         
                                 <div class="col-md-6 mt-3">
@@ -44,11 +44,12 @@
                         
                                 <div class="col-md-6 mt-3">
                                     <label for="nome" class="form-label">Telefone</label>
-                                    <input type="text" name="telefone" id="telefone" class="form-control">
+                                    <input type="text" name="telefone" id="telefone" class="form-control" 
+                                    onkeyup="handlePhone(event)" maxlength="15">
                                 </div>
 
                                 <div class="d-flex col-md-12 mt-3 mb-3 justify-content-start">
-                                    <a href="/clientes" class="btn btn-primary no-print">
+                                    <a href="/clientes" class="btn btn-danger no-print">
                                         Cancelar
                                     </a>
                                     <button type="submit" class="btn btn-block btn-warning ms-2">
