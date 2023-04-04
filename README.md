@@ -16,11 +16,10 @@ Desenvolva uma pequena aplicação web de venda de imóveis onde um vendedor faz
    
 ***
 ## Como rodar a aplicação
-#### Com docker
-`$ docker image build -t desafio_strategi .`
+Você precisa ter o docker instalado em sua máquina
+
+`$ docker image build -t desafio_strategi .` <br>
 `$ docker run -p 5000:5000 -d desafio_strategi`
-#### CLI
-`$ python3 run.py`
 
 O app irá iniciar na porta localhost:5000
 
@@ -56,23 +55,23 @@ senha = 123456
 - SQLite
 
 ## Organização do projeto
-strategi-desafio 
-├── app (Folder da aplicação)
-│   ├── forms.py
-│   ├── models.py
-│   ├── routes.py
-│   ├── static (Arquivos estáticos, imagens, CSSs e scripts)
-│   │   ├── img (pasta de imagens estáticas)
-│   │   └── styles (pasta com arquivos de estilo)
-│   │   └── script (pasta com scripts frontend da aplicação
-│   ├── templates (Arquivos HTML da aplicação)
-│   └── util.py (Funções auxiliares)
-├── config.py ( Arquivo responsável por popular o banco de dados inicialmente)
-├── instance (Caso não exista, essa pasta será criada quando o app for inicializado a primeira vez)
-│   └── imoveisvendas.sqlite3 (Bando de dados SQLite)
-├── README.md (Este arqiuvo)
-├── requirements.txt (lista de pacotes e bibliotecas necessárias para o Python rodar a aplicação)
-└── run.py (Arquivo que deverá ser executado para iniciar o servidor e aplicação)
+strategi-desafio <br>
+├── app (Folder da aplicação) <br>
+│   ├── forms.py <br>
+│   ├── models.py<br>
+│   ├── routes.py<br>
+│   ├── static (Arquivos estáticos, imagens, CSSs e scripts)<br>
+│   │   ├── img (pasta de imagens estáticas)<br>
+│   │   └── styles (pasta com arquivos de estilo)<br>
+│   │   └── script (pasta com scripts frontend da aplicação<br>
+│   ├── templates (Arquivos HTML da aplicação)<br>
+│   └── util.py (Funções auxiliares)<br>
+├── config.py ( Arquivo responsável por popular o banco de dados inicialmente)<br>
+├── instance (Caso não exista, essa pasta será criada quando o app for inicializado a primeira vez)<br>
+│   └── imoveisvendas.sqlite3 (Bando de dados SQLite)<br>
+├── README.md (Este arqiuvo)<br>
+├── requirements.txt (lista de pacotes e bibliotecas necessárias para o Python rodar a aplicação)<br>
+└── run.py (Arquivo que deverá ser executado para iniciar o servidor e aplicação)<br>
 
 
 ## Modelo do Banco de Dados
