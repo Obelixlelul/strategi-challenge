@@ -87,3 +87,8 @@
         margin-left: -15rem;
     }
 }
+
+#myAlert {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}

@@ -107,9 +107,11 @@ def deleteVenda(id):
 
 @bp.route('/clientes')
 def clientes():
+	flag = False if 'flag' in request.args else True
+
 	if 'user' in session:
 		clientes = Cliente.query.all()
-		return render_template('clientes.html', clientes = clientes, user = session['user'])
+		return render_template('clientes.html', clientes = clientes, user = session['user'], flag = flag)
 	return render_template('login.html')
 
 @bp.route('/cliente/add', methods=['GET', 'POST'])
@@ -132,7 +134,9 @@ def clientesAdd():
 @bp.route('/cliente/delete/<int:id>')
 def clientesDelete(id):
 	cliente = db.get_or_404(Cliente, id)
-
+	venda = Venda.query.filter_by(id_cliente=id).first()
+	if venda:
+		return redirect(url_for('routes.clientes', flag = False))
 	db.session.delete(cliente)
 	db.session.commit()
 
@@ -189,7 +193,7 @@ def test():
 
 @bp.route('/extrato/<int:id>', methods=['POST', 'GET'])
 def extrato(id):
-	result = db.session.query(Venda, Imovel, Corretor, Cliente).join(Imovel, Venda.id_imovel==Imovel.id) \
+	result = db.session.query(Venda, Imovel, Corretor, Cliente).join(Imovel, Venda.id_imovel==id) \
 	.join(Corretor, Venda.id_corretor == Corretor.id).join(Cliente, Venda.id_cliente == Cliente.id).first()
 
 	if result:

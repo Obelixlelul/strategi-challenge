@@ -16,12 +16,14 @@ Desenvolva uma pequena aplicação web de venda de imóveis onde um vendedor faz
    
 ***
 ## Como rodar a aplicação
+Pre-requisito:
 Você precisa ter o docker instalado em sua máquina
 
-`$ docker image build -t desafio_strategi .` <br>
-`$ docker run -p 5000:5000 -d desafio_strategi`
-
-O app irá iniciar na porta localhost:5000
+Instruções:
+1. Clone esse repositório com o comando `git clone`
+2. `$ docker image build -t desafio_strategi .` <br>
+3. `$ docker run -p 5000:5000 -d desafio_strategi`
+4. O app iniciará na porta localhost:5000
 
 ## Logando na aplicação
 usuário = gabriel
@@ -61,20 +63,18 @@ strategi-desafio <br>
 │   ├── models.py<br>
 │   ├── routes.py<br>
 │   ├── static (Arquivos estáticos, imagens, CSSs e scripts)<br>
-│   │   ├── img (pasta de imagens estáticas)<br>
-│   │   └── styles (pasta com arquivos de estilo)<br>
-│   │   └── script (pasta com scripts frontend da aplicação<br>
+│   │    ├── img (pasta de imagens estáticas)<br>
+│   │    └── styles (pasta com arquivos de estilo)<br>
+│   │    └── script (pasta com scripts frontend da aplicação)<br>
 │   ├── templates (Arquivos HTML da aplicação)<br>
 │   └── util.py (Funções auxiliares)<br>
 ├── config.py ( Arquivo responsável por popular o banco de dados inicialmente)<br>
 ├── instance (Caso não exista, essa pasta será criada quando o app for inicializado a primeira vez)<br>
-│   └── imoveisvendas.sqlite3 (Bando de dados SQLite)<br>
+│     └── imoveisvendas.sqlite3 (Bando de dados SQLite)<br>
 ├── README.md (Este arqiuvo)<br>
 ├── requirements.txt (lista de pacotes e bibliotecas necessárias para o Python rodar a aplicação)<br>
 └── run.py (Arquivo que deverá ser executado para iniciar o servidor e aplicação)<br>
 
-
 ## Modelo do Banco de Dados
 ![My Image](readme_images/modelo_banco.png)
 
-=)

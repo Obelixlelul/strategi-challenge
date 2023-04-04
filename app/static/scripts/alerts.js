@@ -13,3 +13,12 @@ const alert = (message, type) => {
 
     alertPlaceholder.append(wrapper)
 }
+
+// To fade out alerts
+setTimeout(function() {
+    const myDiv = document.getElementById('myAlert');
+    myDiv.style.opacity = '0';
+    setTimeout(function() {
+      myDiv.remove();
+    }, 1000); 
+}, 3000);

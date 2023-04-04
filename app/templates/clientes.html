@@ -1,5 +1,6 @@
 {% include 'base/head.html' %}
 
+
 <div class="d-flex" id="wrapper">
     <!-- Sidebar starts here -->
 
@@ -24,6 +25,11 @@
             <div class="row g-3 my-2">    
                 <div class="row my-1">
                     <div class="col">
+                        {% if flag == False %}
+                            <div class="alert alert-danger" id="myAlert" role="alert">
+                                Usuário não pode ser deletado pois está relacionado a uma venda
+                            </div>
+                        {% endif %}
                         <table class="table bg-white shadow-sm table-hover">
                             <thead>
                                 <tr>
@@ -54,6 +60,7 @@
                             {% endfor %}
                         </table>
                         <a href="/cliente/add" style="display: inline-block; text-align: right;">Adicionar cliente</a>
+                        
                     </div>
                 </div>
             </div>

@@ -30,7 +30,7 @@
             <p>Endereço: {{imovel.logradouro.title()}}</p>
             <p>Tipo: {{imovel.tipo.nome.title()}}</p>
             <p>Corretor: {{corretor.nome.title()}}</p>
-            <p>Cliente: {{cliente.nome}}</p>
+            <p>Cliente: {{cliente.nome.title()}}</p>
             <p>Valor do imóvel: {{imovel.valor | filterCurrency}}</p>
             <p>Valor da comissao: {{venda.valor_comissao | filterCurrency}}</p>
             <p>Condição de pagamento: {{venda.condicao.nome.upper()}}</p>
