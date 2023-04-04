@@ -13,7 +13,7 @@ Desenvolva uma pequena aplicação web de venda de imóveis onde um vendedor faz
 2. Utilize algum ORM
 3. Utilize qualquer banco de dados
 4. Utilize Flask
-5. SQLiter
+   
 ***
 ## Como rodar a aplicação
 #### Com docker
@@ -53,6 +53,7 @@ senha = 123456
 - SQLalchemy ORM
 - Bootstrap 5
 - Jinja 2
+- SQLite
 
 ## Organização do projeto
 strategi-desafio 
